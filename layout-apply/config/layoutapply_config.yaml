@@ -1,0 +1,122 @@
+---
+log:
+ log_dir: ./
+ logging_level: INFO
+ rotation_size: 20000000
+ backup_files: 10
+layout_apply:
+ host: 0.0.0.0
+ port: 8003
+ request:
+  max_workers: 2
+db:
+ dbname: ApplyStatusDB
+ user: user01
+ host: layout-apply-db
+ port: 5432
+get_information:
+ host: localhost
+ port: 3500
+ uri: v1.0/invoke/hw-control/method/cdim/api/v1
+ specs:
+  poweroff:
+   polling:
+    count: 15
+    interval: 6
+  connect:
+   polling:
+    count: 15
+    interval: 6
+  disconnect:
+   polling:
+    count: 15
+    interval: 6
+  timeout: 60
+hardware_control:
+ host: localhost
+ port: 3500
+ uri: v1.0/invoke/hw-control/method/cdim/api/v1
+ disconnect:
+  retry:
+   targets:
+    - status_code: 503
+      code: ER005BAS001
+      interval: 5
+      max_count: 10
+    - status_code: 503
+      code: ER005BAS002
+      interval: 5
+      max_count: 10
+   default:
+    interval: 5
+    max_count: 5
+  timeout: 60
+ connect:
+  retry:
+   targets:
+    - status_code: 503
+      code: ER005BAS001
+      interval: 5
+      max_count: 10
+    - status_code: 503
+      code: ER005BAS002
+      interval: 5
+      max_count: 10
+   default:
+    interval: 5
+    max_count: 5
+  timeout: 60
+ poweroff:
+  retry:
+   targets:
+    - status_code: 503
+      code: ER005BAS001
+      interval: 5
+      max_count: 10
+    - status_code: 503
+      code: ER005BAS002
+      interval: 5
+      max_count: 10
+   default:
+    interval: 5
+    max_count: 5
+  timeout: 60
+ poweron:
+  retry:
+   targets:
+    - status_code: 503
+      code: ER005BAS001
+      interval: 5
+      max_count: 10
+    - status_code: 503
+      code: ER005BAS002
+      interval: 5
+      max_count: 10
+   default:
+    interval: 5
+    max_count: 5
+  timeout: 60
+ isosboot:
+  polling:
+   count: 15
+   interval: 6
+   skip:
+    - status_code: 400
+      code: EF003BAS010
+  request:
+   timeout: 2
+  timeout: 60
+migration_procedure_generator:
+ host: localhost
+ port: 3500
+ uri: v1.0/invoke/migration-procedure-generator/method/cdim/api/v1
+ timeout: 30
+configuration_manager:
+ host: localhost
+ port: 3500
+ uri: v1.0/invoke/configuration-manager/method/cdim/api/v1
+ timeout: 30
+server_connection:
+ retry:
+  interval: 5
+  max_count: 5

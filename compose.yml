@@ -1,0 +1,59 @@
+services:
+  layout-apply:
+    build:
+      context: .
+      dockerfile: ./layout-apply/Dockerfile
+      args:
+        CACHE_BUST: ${CACHE_BUST:-1}
+    container_name: layout-apply
+    tty: true
+    ports:
+      - 8013:8003
+      - 3503:3500
+    networks:
+      - cdim-net
+    volumes:
+      - ./layout-apply/config/:/usr/local/lib/python3.13/site-packages/layoutapply/config/
+    logging:
+      options:
+        max-size: 50m
+
+  layout-apply-dapr:
+    image: daprio/daprd:edge
+    container_name: layout-apply-dapr
+    command: [ "./daprd", "-app-id", "layout-apply", "-app-port", "8003", "-dapr-http-port", "3500", "-placement-host-address", "placement:50006", "-config", "/configuration/config.yaml", "-resources-path", "/components" ]
+    volumes:
+      - "./layout-apply/dapr/components/:/components"
+      - "./layout-apply/dapr/configuration/:/configuration"
+      - "./layout-apply/dapr/secrets/:/secrets"
+    depends_on:
+      - layout-apply
+    network_mode: "service:layout-apply"
+    logging:
+      options:
+        max-size: 50m
+
+  layout-apply-db:
+    image: "postgres:17-alpine3.19"
+    environment:
+      - POSTGRES_USER=user01
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=ApplyStatusDB
+    container_name: layout-apply-db
+    ports:
+      - 5442:5432
+    networks:
+      - cdim-net
+    volumes:
+      - layout-apply-db:/var/lib/postgresql/data
+      - ./layout-apply-db/init:/docker-entrypoint-initdb.d
+    logging:
+      options:
+        max-size: 50m
+
+networks:
+  cdim-net:
+    external: true
+
+volumes:
+  layout-apply-db:
