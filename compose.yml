@@ -40,8 +40,6 @@ services:
       - POSTGRES_PASSWORD=P@ssw0rd
       - POSTGRES_DB=ApplyStatusDB
     container_name: layout-apply-db
-    ports:
-      - 5442:5432
     networks:
       - cdim-net
     volumes:
