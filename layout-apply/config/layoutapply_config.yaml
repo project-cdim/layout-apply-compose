@@ -133,3 +133,5 @@ message_broker:
  port: 3500
  pubsub: layout_apply_apply
  topic: layout_apply.apply.completed
+features:
+ workflow_manager: true

@@ -1,6 +1,6 @@
 FROM redhat/ubi9
 
-ARG PYTHON_VER="3.13.5"
+ARG PYTHON_VER="3.14.2"
 
 RUN dnf update -y && \
     dnf -y install git wget nano openssl-devel bzip2-devel libffi-devel zlib-devel ca-certificates postgresql-devel automake cmake make gcc sqlite-devel python3-devel procps && \
@@ -16,6 +16,7 @@ WORKDIR /layout-apply
 
 ARG CACHE_BUST=1
 COPY layout-apply/layout-apply /layout-apply/layout-apply
-RUN echo "Cache busting: $CACHE_BUST" && pip3.13 install /layout-apply/layout-apply
+RUN echo "Cache busting: $CACHE_BUST" && pip3.14 install /layout-apply/layout-apply
+RUN mkdir -p /var/log/cdim
 
 CMD ["sh","-c","exec layoutapply-server"]

@@ -1,5 +1,6 @@
 services:
   layout-apply:
+    init: true
     build:
       context: .
       dockerfile: ./layout-apply/Dockerfile
@@ -13,7 +14,8 @@ services:
     networks:
       - cdim-net
     volumes:
-      - ./layout-apply/config/:/usr/local/lib/python3.13/site-packages/layoutapply/config/
+      - ./layout-apply/config/:/usr/local/lib/python3.14/site-packages/layoutapply/config/
+      - layout-apply-log:/var/log/cdim/
     logging:
       options:
         max-size: 50m
@@ -55,3 +57,4 @@ networks:
 
 volumes:
   layout-apply-db:
+  layout-apply-log:
