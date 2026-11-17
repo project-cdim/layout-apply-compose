@@ -1,4 +1,4 @@
--- Copyright (C) 2025 NEC Corporation.
+-- Copyright (C) 2025-2026 NEC Corporation.
 -- 
 -- Licensed under the Apache License, Version 2.0 (the "License"); you may
 -- not use this file except in compliance with the License. You may obtain
@@ -32,18 +32,13 @@ CREATE TABLE public.applystatus (
 applyid character varying(10) NOT NULL,
 status character varying(12),
 procedures jsonb,
-applyresult jsonb,
+result jsonb,
 rollbackprocedures jsonb,
 startedat timestamp without time zone,
 endedat timestamp without time zone,
 canceledat timestamp without time zone,
 executerollback boolean,
-rollbackstatus character varying(12),
-rollbackresult jsonb,
-rollbackstartedat timestamp without time zone,
-rollbackendedat timestamp without time zone,
 resumeprocedures jsonb,
-resumeresult jsonb,
 processid integer,
 executioncommand text,
 processstartedat text,
@@ -56,3 +51,26 @@ resumedat timestamp without time zone
 ALTER TABLE ONLY public.applystatus ADD CONSTRAINT applystatus_pkey PRIMARY KEY (applyid);
 
 GRANT ALL ON TABLE public.applystatus TO user01;
+
+
+CREATE TABLE public.rollbackstatus (
+applyid character varying(10) NOT NULL,
+status character varying(12),
+procedures jsonb,
+result jsonb,
+startedat timestamp without time zone,
+endedat timestamp without time zone,
+canceledat timestamp without time zone,
+resumeprocedures jsonb,
+processid integer,
+executioncommand text,
+processstartedat text,
+suspendedat timestamp without time zone,
+resumedat timestamp without time zone
+);
+
+--ALTER TABLE public.rollbackstatus OWNER TO postgres;
+
+ALTER TABLE ONLY public.rollbackstatus ADD CONSTRAINT rollbackstatus_pkey PRIMARY KEY (applyid);
+
+GRANT ALL ON TABLE public.rollbackstatus TO user01;

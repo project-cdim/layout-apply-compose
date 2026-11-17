@@ -4,6 +4,9 @@ layout_apply:
  port: 8003
  request:
   max_workers: 2
+ db_update_timing:
+  count: 10 
+  time: 3
 db:
  dbname: ApplyStatusDB
  user: user01
@@ -16,16 +19,16 @@ get_information:
  specs:
   poweroff:
    polling:
-    count: 15
-    interval: 6
+    count: 8
+    interval: 30
   connect:
    polling:
-    count: 15
-    interval: 6
+    count: 8
+    interval: 30
   disconnect:
    polling:
-    count: 15
-    interval: 6
+    count: 8
+    interval: 30
   timeout: 60
 workflow_manager:
  host: localhost
@@ -50,11 +53,11 @@ hardware_control:
     - status_code: 503
       code: ER005BAS001
       interval: 5
-      max_count: 10
+      max_count: 5
     - status_code: 503
       code: ER005BAS002
       interval: 5
-      max_count: 10
+      max_count: 5
    default:
     interval: 5
     max_count: 5
@@ -65,11 +68,11 @@ hardware_control:
     - status_code: 503
       code: ER005BAS001
       interval: 5
-      max_count: 10
+      max_count: 5
     - status_code: 503
       code: ER005BAS002
       interval: 5
-      max_count: 10
+      max_count: 5
    default:
     interval: 5
     max_count: 5
@@ -80,11 +83,11 @@ hardware_control:
     - status_code: 503
       code: ER005BAS001
       interval: 5
-      max_count: 10
+      max_count: 5
     - status_code: 503
       code: ER005BAS002
       interval: 5
-      max_count: 10
+      max_count: 5
    default:
     interval: 5
     max_count: 5
@@ -95,24 +98,24 @@ hardware_control:
     - status_code: 503
       code: ER005BAS001
       interval: 5
-      max_count: 10
+      max_count: 5
     - status_code: 503
       code: ER005BAS002
       interval: 5
-      max_count: 10
+      max_count: 5
    default:
     interval: 5
     max_count: 5
   timeout: 60
  isosboot:
   polling:
-   count: 15
-   interval: 6
+   count: 8
+   interval: 30
    skip:
     - status_code: 400
       code: EF003BAS010
   request:
-   timeout: 2
+   timeout: 30
   timeout: 60
 migration_procedure_generator:
  host: localhost
@@ -126,8 +129,8 @@ configuration_manager:
  timeout: 30
 server_connection:
  retry:
-  interval: 5
-  max_count: 5
+  interval: 2
+  max_count: 4
 message_broker:
  host: localhost
  port: 3500

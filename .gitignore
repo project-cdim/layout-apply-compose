@@ -1,2 +1,3 @@
 proxy/*
 !.gitkeep
+compose.yml
