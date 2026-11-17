@@ -1,0 +1,3 @@
+[submodule "layout-apply/layout-apply"]
+	path = layout-apply/layout-apply
+	url = https://github.com/project-cdim/layout-apply.git

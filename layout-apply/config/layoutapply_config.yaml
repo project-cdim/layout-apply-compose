@@ -1,9 +1,4 @@
 ---
-log:
- log_dir: ./
- logging_level: INFO
- rotation_size: 20000000
- backup_files: 10
 layout_apply:
  host: 0.0.0.0
  port: 8003
@@ -32,6 +27,19 @@ get_information:
     count: 15
     interval: 6
   timeout: 60
+workflow_manager:
+ host: localhost
+ port: 3500
+ uri: v1.0/invoke/hw-control/method/cdim/api/v1
+ extended-procedure:
+  retry:
+   default:
+    interval: 5
+    max_count: 5
+  polling:
+   count: 60
+   interval: 30
+ timeout: 60
 hardware_control:
  host: localhost
  port: 3500
@@ -120,3 +128,8 @@ server_connection:
  retry:
   interval: 5
   max_count: 5
+message_broker:
+ host: localhost
+ port: 3500
+ pubsub: layout_apply_apply
+ topic: layout_apply.apply.completed
